@@ -1,10 +1,7 @@
 #include"../include/CPU6502.h"
 
 void LoadProgram(Mem& mem, std::initializer_list<Byte> program, u32 start = 0xFFFC) {
-    Word resetVector = 0xFFFC;
-    memory[resetVector] = startAddress & 0xFF;
-    memory[resetVector + 1] = (startAddress >> 8) & 0xFF;
-    
+
     for (auto byte : program) {
         mem[start++] = byte;
     }
