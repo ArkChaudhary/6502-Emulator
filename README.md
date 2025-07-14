@@ -26,7 +26,7 @@ This project was designed to simulate how a real CPU works at the instruction le
 ---
 
 ## Code Structure
-6502-emulator/
+6502-emulator
 ├── CPU6502.h # Core module: CPU + Memory structs
 ├── main.cpp # Test runner and usage examples
 ├── README.md # Project documentation (you are here)
