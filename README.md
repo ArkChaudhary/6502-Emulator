@@ -80,4 +80,74 @@ git clone https://github.com/ArkChaudhary/6502-Emulator.git
 cd 6502-Emulator
 g++ main.cpp -o emulator
 ./emulator
+```
 
+---
+
+## Creating Programs
+
+6502 programs are written by directly placing opcodes and data into memory. The program starts at address `0xFFFC`, which is where the 6502 looks for the reset vector (start of execution).
+Here’s how to write a test using the built-in `LoadProgram` helper (define this in your `main.cpp`):
+
+```cpp
+void LoadProgram(Mem& mem, std::initializer_list<Byte> program, u32 start = 0xFFFC) {
+
+    for (auto byte : program) {
+        mem[start++] = byte;
+    }
+}
+```
+
+### Example Program
+
+This loads the value `0x80` into the accumulator and executes a `NOP`:
+
+```cpp
+int main()
+{
+    Mem mem;
+    CPU cpu;
+
+    cpu.Reset(mem);
+
+    LoadProgram(mem, {
+        CPU::INS_LDA_IM, 0x80,   // LDA #$80
+        CPU::INS_NOP             // NOP
+    });
+
+    cpu.Execute(3, mem);
+    return 0;
+}
+```
+### Output
+
+```bash
+Executed, opcode: 0xa9
+Accumulator: 80 Registers (X: 0 Y: 0) StackPointer: 0x0100 ProgramCounter: 0xfffe
+Flags -> Carry: 0 Zero: 0 Interrupt: 0 Decimal: 0 Break: 0 oVerflow: 0 Negative: 1
+Cycles left: 1
+Address: 0xfffc --------- Value: 0xa9 --> 169
+Address: 0xfffd --------- Value: 0x80 --> 128
+Address: 0xfffe --------- Value: 0xea --> 234
+
+Executed, opcode: 0xea
+Accumulator: 80 Registers (X: 0 Y: 0) StackPointer: 0x0100 ProgramCounter: 0xffff
+Flags -> Carry: 0 Zero: 0 Interrupt: 0 Decimal: 0 Break: 0 oVerflow: 0 Negative: 1
+Cycles left: 0
+Address: 0xfffc --------- Value: 0xa9 --> 169
+Address: 0xfffd --------- Value: 0x80 --> 128
+Address: 0xfffe --------- Value: 0xea --> 234
+```
+
+---
+
+## Why I built this project
+
+As an electronics engineer, I wanted a hands-on way to explore the internal mechanics of a microprocessor.
+This project gave me the opportunity to:
+
+- Study the 6502 Instruction Set Architecture
+- Understand microprocessor internals like registers, memory mapping, stack behavior, and flag logic
+- Sharpen my C++ skills — including structs, pointers, memory management, bitfields, and modular design
+- Develop an intuitive grasp of how CPU instructions are fetched, decoded, and executed
+- This emulator served as a deep dive into both low-level computing and systems programming.
