@@ -1,6 +1,6 @@
 # 6502 CPU Emulator in C++
 
-A lightweight emulator for the legendary **MOS 6502 8-bit microprocessor**, implemented in modern C++.  
+In this project, I built an emulator for **MOS 6502 8-bit microprocessor**, implemented in modern C++.  
 This project was designed to simulate how a real CPU works at the instruction level, including memory access, register manipulation, and flag behavior.
 
 > Built from scratch as a personal learning project by an electronics engineer to deeply understand how microprocessors function internally.
